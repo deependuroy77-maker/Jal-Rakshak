@@ -1,0 +1,24 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\begin{document}
+\title{JAL-SENSE Development Log}
+\date{14 September 2026}
+\maketitle
+\section*{Version 1.0 -- MVP foundation}
+\begin{itemize}
+  \item Created a native Android Studio project using Kotlin and Jetpack Compose.
+  \item Implemented Home, Dashboard, Alerts, Devices, History, and Settings navigation.
+  \item Added simulated live sensor values, quality/status labels, treatment decision visibility, and equipment status.
+  \item Added active/history alert views with acknowledge and resolve actions stored locally for the app session.
+  \item Added data limitations and terms content, including the laboratory-validation disclaimer.
+  \item Added a placeholder data boundary for future WebSocket/SSE or REST integration.
+\end{itemize}
+\section*{Known MVP limits}
+This build is a UI prototype: authentication, persistent storage, backend ingestion, browser notifications, and custom-domain deployment require a backend/service deployment phase.
+\section*{Verification}
+Project files were checked for placeholder implementation markers and Android Studio project structure. A local Android SDK/Gradle runtime was not available in the workspace, so APK compilation should be run from Android Studio after its normal Gradle sync.
+\section*{15 September 2026 -- Arduino sketch repair}
+Corrected an incomplete SX1278 transmitter sketch supplied by the project owner. The source had been truncated inside the version-warning \texttt{Serial.printf} call, did not close \texttt{sendPacket()}, did not close \texttt{setup()}, and lacked a \texttt{loop()} function. A complete corrected sketch was saved as \texttt{JAL\_SENSE\_SX1278\_TX.ino}.
+\section*{15 September 2026 -- Direct ESP32 dashboard integration}
+Replaced simulated dashboard readings with a direct local-Wi-Fi ESP32 JSON client. The Android app requests \texttt{http://10.222.230.15/api/v1/measurements} every three seconds, parses its measurement array, shows connection failure safely, and lets the operator change the endpoint in Settings.
+\end{document}
